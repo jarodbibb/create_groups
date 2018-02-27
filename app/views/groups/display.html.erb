@@ -1,0 +1,28 @@
+<a href="/logout"> Log Out </a>
+<a href="/groups"> Dashboard</a>
+
+<% if @part.length > 0 %>
+
+
+
+<a href="/leave/<%= @group.id %>" data-method="delete"><button>Leave Group</button></a>
+</form>
+<% else %>
+<h5> Disaster Response Group </h5>
+
+<form action="/groups/<%= @group.id %>" method="post">
+<input type="hidden" name="_method" value="patch">
+<input type = 'hidden' name = "authenticity_token" value = "<%=form_authenticity_token%>">
+<button>Join Group</button>
+
+</form>
+<% end %>
+<p> <%= @group.description %> </p>
+<br>
+<h6> Created By: <%= @group.created_by %><h6>
+<br>
+<h6> Members:</h6>
+<% @members.each do |member| %>
+<p> <%= User.find(member.users_id).first_name %></p>
+<% end %>
+

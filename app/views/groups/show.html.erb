@@ -1,0 +1,35 @@
+<a href="/logout"> Log Out </a>
+<h3> Hello <%= current_user.first_name %> <%= current_user.last_name %> </h3>
+<br>
+<p>Here are organizations you may join: </p>
+<br>
+<% @groups.each do |group| %>
+<div>
+<h5><a href="/groups/<%= group.id %>"> <%= group.name %></a></h5>
+<br>
+<p>Members: <%= Member.where(groups_id: group.id).count %> </p>
+<br>
+<p><%= group.description %></p>
+<% if group.created_by == current_user.first_name %>
+<a href="/groups/<%= group.id %>" data-method="delete"><button>Delete event you created</button></a>
+<% end %>
+<% end %>
+</div>
+<br>
+<div>
+<% if flash[:notice] %>
+<% flash[:notice].each do |note| %>
+<p> <%= note %>
+<% end %>
+<% end %></p>
+<h5>Create a new organization: </h5>
+<form action ="/groups" method="post">
+<label>Org Name: </label>
+<input type = 'hidden' name = "authenticity_token" value = "<%=form_authenticity_token%>">
+
+<input type="text" name="group[name]" id="group_name">
+<label>Org Description </label>
+<input type="text" name="group[description]" id="group_description">
+<button>Create</button>
+</form>
+</div>
